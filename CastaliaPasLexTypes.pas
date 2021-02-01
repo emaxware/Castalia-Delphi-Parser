@@ -27,10 +27,13 @@ var
   CompTable: array[#0..#255] of byte;
 
 type
+  _PChar=PAnsiChar;
+  _Char=AnsiChar;
+  _String=AnsiString;
 
   TMessageEventType = ( meError, meNotSupported );
 
-  TMessageEvent = procedure(Sender: TObject; const Typ : TMessageEventType; const Msg: string; X, Y: Integer ) of object; //jdj 7/16/1999; DR 2001-11-06
+  TMessageEvent = procedure(Sender: TObject; const Typ : TMessageEventType; const Msg: _string; X, Y: Integer ) of object; //jdj 7/16/1999; DR 2001-11-06
 
   TCommentState = (csAnsi, csBor, csNo);
 
@@ -277,7 +280,7 @@ TmwPasLexStatus = record
   ExID: TptTokenKind;
   LineNumber: Integer;
   LinePos: Integer;
-  Origin: PChar;
+  Origin: _PChar;
   RunPos: Integer;
   TokenPos: Integer;
   TokenID: TptTokenKind;
@@ -285,18 +288,18 @@ end;
 
 const ExTypes = [ptDWORD, ptUnknown];
 
-function TokenName(Value: TptTokenKind): string;
-function ptTokenName(Value: TptTokenKind): string;
+function TokenName(Value: TptTokenKind): _string;
+function ptTokenName(Value: TptTokenKind): _string;
 function IsTokenIDJunk(const aTokenID : TptTokenKind ) :Boolean; //XM 20001210
 
 implementation
 
-function TokenName(Value: TptTokenKind): string;
+function TokenName(Value: TptTokenKind): _string;
 begin //jdj 7/18/1999
   Result := Copy(ptTokenName(Value), 3, MaxInt);
 end;
 
-function ptTokenName(Value: TptTokenKind): string;
+function ptTokenName(Value: TptTokenKind): _string;
 begin
   result := GetEnumName(TypeInfo(TptTokenKind), Integer(Value));
 end;
